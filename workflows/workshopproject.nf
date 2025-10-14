@@ -9,7 +9,7 @@ include { paramsSummaryMap       } from 'plugin/nf-schema'
 include { paramsSummaryMultiqc   } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText } from '../subworkflows/local/utils_nfcore_workshopproject_pipeline'
-include { MERGE_BARCODES_SAMPLESHEET } from '../modules/local/merge_barcodes_samplesheet/main'
+include { PYCOQC                 } from '../modules/nf-core/pycoqc/main'
  
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -21,18 +21,32 @@ workflow WORKSHOPPROJECT {
 
     take:
     ch_samplesheet // channel: samplesheet read in from --input
+    ch_reads
     main:
 
     ch_versions = Channel.empty()
     ch_multiqc_files = Channel.empty()
+
     //
     // MODULE: Run FastQC
     //
+    ch_samplesheet.view()
     FASTQC (
-        ch_samplesheet
+        ch_reads
     )
     ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
     ch_versions = ch_versions.mix(FASTQC.out.versions.first())
+    // MODULE PYCOQC
+    //First, create a channel for the sequencing summary file
+    ch_sequencing_sum_file = channel.fromPath(
+        params.sequencing_summary,
+        checkIfExists: true
+    )
+    // MODULE: pyqoqc
+    PYCOQC (
+        ch_sequencing_sum_file
+    )
+
 
     //
     // Collate and save software versions

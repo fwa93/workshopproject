@@ -29,6 +29,7 @@ workflow FWA93_WORKSHOPPROJECT {
 
     take:
     samplesheet // channel: samplesheet read in from --input
+    reads
 
     main:
 
@@ -36,7 +37,7 @@ workflow FWA93_WORKSHOPPROJECT {
     // WORKFLOW: Run pipeline
     //
     WORKSHOPPROJECT (
-        samplesheet
+        samplesheet, reads
     )
     emit:
     multiqc_report = WORKSHOPPROJECT.out.multiqc_report // channel: /path/to/multiqc_report.html
@@ -59,14 +60,18 @@ workflow {
         params.monochrome_logs,
         args,
         params.outdir,
-        params.input
+        params.input,
+        params.barcodes_samplesheet,
+        params.merge_fastq_pass
     )
 
     //
     // WORKFLOW: Run main workflow
     //
     FWA93_WORKSHOPPROJECT (
-        PIPELINE_INITIALISATION.out.samplesheet
+        PIPELINE_INITIALISATION.out.samplesheet,
+        PIPELINE_INITIALISATION.out.reads
+        
     )
     //
     // SUBWORKFLOW: Run completion tasks

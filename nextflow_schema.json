@@ -10,7 +10,7 @@
             "type": "object",
             "fa_icon": "fas fa-terminal",
             "description": "Define where the pipeline should find input data and save output data.",
-            "required": ["input", "outdir"],
+            "required": ["outdir"],
             "properties": {
                 "input": {
                     "type": "string",
@@ -199,5 +199,17 @@
         {
             "$ref": "#/$defs/generic_options"
         }
-    ]
+    ],
+    "properties": {
+        "barcodes_samplesheet": {
+            "type": "string"
+        },
+        "merge_fastq_pass": {
+            "type": "string"
+        },
+        "sequencing_summary": {
+            "type": "string"
+        }
+    },
+    "required": ["barcodes_samplesheet", "merge_fastq_pass"]
 }
