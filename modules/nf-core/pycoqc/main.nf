@@ -4,7 +4,7 @@ process PYCOQC {
 
     conda "${moduleDir}/environment.yml"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/pycoqc:2.5.2--py_0' :
+        'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/a4/a41bd36ec022b70789503469837325a5820a8777a54edcbdbce9d06c93e2bd98/data' :
         'biocontainers/pycoqc:2.5.2--py_0' }"
 
     input:

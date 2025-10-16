@@ -11,6 +11,9 @@ Initial release of fwa93/workshopproject, created with the [nf-core](https://nf-
 - Added modules for merging data
 - Added module for pycoqc
 
+- Added modules for merging data
+- Added module for pycoqc
+
 ### `Fixed`
 
 ### `Dependencies`
