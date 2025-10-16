@@ -71,7 +71,7 @@ workflow {
     FWA93_WORKSHOPPROJECT (
         PIPELINE_INITIALISATION.out.samplesheet,
         PIPELINE_INITIALISATION.out.reads
-        
+
     )
     //
     // SUBWORKFLOW: Run completion tasks
